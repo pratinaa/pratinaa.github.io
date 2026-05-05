@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pratinav Agrawal — Engineering Portfolio</title>
+
+    <!-- Fonts for Creative Voltage: Syne and Space Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <style>
+      /* ===========================================
+         CSS CUSTOM PROPERTIES (THEME)
+         =========================================== */
+      :root {
+        --bg-primary: #0066ff;
+        --bg-dark: #1a1a2e;
+        --accent-neon: #d4ff00;
+        --text-light: #ffffff;
+
+        --font-display: 'Syne', sans-serif;
+        --font-body: 'Space Mono', monospace;
+
+        --title-size: clamp(1.5rem, 4vw, 3.5rem);
+        --h2-size: clamp(1.25rem, 3vw, 2.25rem);
+        --h3-size: clamp(1rem, 2vw, 1.5rem);
+        --body-size: clamp(0.75rem, 1.2vw, 1rem);
+        --small-size: clamp(0.65rem, 1vw, 0.85rem);
+
+        --slide-padding: clamp(1rem, 3vw, 3rem);
+        --content-gap: clamp(0.5rem, 1.5vw, 1.5rem);
+        --element-gap: clamp(0.25rem, 1vw, 1rem);
+
+        --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        --duration-normal: 0.6s;
+      }
+
+      /* ===========================================
+         VIEWPORT FITTING: MANDATORY BASE STYLES
+         =========================================== */
+      html, body {
+          height: 100%;
+          overflow-x: hidden;
+          margin: 0;
+          padding: 0;
+      }
+
+      html {
+          scroll-snap-type: y mandatory;
+          scroll-behavior: smooth;
+      }
+
+      body {
+          background: var(--bg-dark);
+          color: var(--text-light);
+          font-family: var(--font-body);
+      }
+
+      .slide {
+          width: 100vw;
+          height: 100vh;
+          height: 100dvh; 
+          overflow: hidden; 
+          scroll-snap-align: start;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          box-sizing: border-box;
+      }
+
+      .slide-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          max-height: 100%;
+          overflow: hidden; 
+          padding: var(--slide-padding);
+          box-sizing: border-box;
+      }
+
+      .card, .container, .content-box {
+          max-width: min(90vw, 1000px);
+          max-height: min(80vh, 700px);
+      }
+
+      .feature-list, .bullet-list {
+          gap: clamp(0.3rem, 1vh, 0.8rem);
+      }
+
+      .feature-list li, .bullet-list li {
+          font-size: var(--body-size);
+          line-height: 1.4;
+      }
+
+      .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+          gap: clamp(0.5rem, 1.5vw, 1rem);
+      }
+
+      img, .image-container {
+          max-width: 100%;
+          max-height: min(50vh, 400px);
+          object-fit: contain;
+      }
+
+      @media (max-height: 700px) {
+          :root {
+              --slide-padding: clamp(0.75rem, 2.5vw, 2rem);
+              --content-gap: clamp(0.4rem, 1vw, 1rem);
+              --title-size: clamp(1.25rem, 3.5vw, 2.25rem);
+              --h2-size: clamp(1rem, 2.5vw, 1.5rem);
+          }
+      }
+      @media (max-height: 600px) {
+          :root {
+              --slide-padding: clamp(0.5rem, 2vw, 1.5rem);
+              --content-gap: clamp(0.3rem, 0.8vw, 0.75rem);
+              --title-size: clamp(1.1rem, 3vw, 1.8rem);
+              --body-size: clamp(0.7rem, 1vw, 0.9rem);
+          }
+          .nav-dots { display: none; }
+      }
+      @media (max-height: 500px) {
+          :root {
+              --slide-padding: clamp(0.4rem, 1.5vw, 1rem);
+              --title-size: clamp(1rem, 2.5vw, 1.4rem);
+              --h2-size: clamp(0.9rem, 2vw, 1.2rem);
+              --body-size: clamp(0.65rem, 0.9vw, 0.8rem);
+          }
+      }
+      @media (max-width: 600px) {
+          :root { --title-size: clamp(1.25rem, 6vw, 2.2rem); }
+          .grid { grid-template-columns: 1fr; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+              animation-duration: 0.01ms !important;
+              transition-duration: 0.2s !important;
+          }
+          html { scroll-behavior: auto; }
+      }
+
+      /* ===========================================
+         CREATIVE VOLTAGE THEME STYLES
+         =========================================== */
+      .split-layout {
+          display: flex;
+          width: 100%;
+          flex: 1;
+          flex-direction: row;
+      }
+      
+      .split-left {
+          flex: 1;
+          background: var(--bg-primary);
+          padding: var(--slide-padding);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          background-image: radial-gradient(rgba(255,255,255,0.2) 1.5px, transparent 1.5px);
+          background-size: 20px 20px;
+          border-right: 2px solid var(--accent-neon);
+      }
+      
+      .split-right {
+          flex: 1.2;
+          background: var(--bg-dark);
+          padding: var(--slide-padding);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+      
+      h1, h2, h3 {
+          font-family: var(--font-display);
+          font-weight: 800;
+          line-height: 1.1;
+          margin: 0 0 var(--content-gap) 0;
+      }
+      
+      h1 { font-size: var(--title-size); text-transform: uppercase; }
+      h2 { font-size: var(--h2-size); }
+      h3 { font-size: var(--h3-size); }
+      
+      .badge {
+          background: var(--accent-neon);
+          color: var(--bg-dark);
+          padding: 0.5rem 1rem;
+          display: inline-block;
+          font-weight: 700;
+          transform: rotate(-2deg);
+          width: fit-content;
+          margin-bottom: var(--content-gap);
+          box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+      }
+      
+      .script {
+          font-family: var(--font-display);
+          font-style: italic;
+          font-weight: 700;
+          color: var(--accent-neon);
+          font-size: var(--h2-size);
+          margin-bottom: 0.5rem;
+      }
+      
+      .tag {
+          background: rgba(255,255,255,0.1);
+          color: var(--text-light);
+          padding: 0.25rem 0.75rem;
+          font-size: var(--small-size);
+          border-radius: 20px;
+          display: inline-block;
+          border: 1px solid var(--accent-neon);
+      }
+      
+      p {
+          font-size: var(--body-size);
+          line-height: 1.6;
+          margin-bottom: var(--content-gap);
+      }
+
+      ul.bullet-list {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+      }
+      
+      ul.bullet-list li {
+          position: relative;
+          padding-left: 1.5rem;
+          margin-bottom: 0.5rem;
+      }
+      
+      ul.bullet-list li::before {
+          content: '>';
+          color: var(--accent-neon);
+          position: absolute;
+          left: 0;
+          font-weight: 700;
+      }
+      
+      .gallery {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: var(--element-gap);
+          align-items: center;
+          justify-items: center;
+      }
+      
+      .gallery img {
+          border: 2px solid var(--accent-neon);
+          box-shadow: 4px 4px 0px var(--bg-primary);
+          border-radius: 4px;
+          max-width: 100%;
+          max-height: min(40vh, 300px);
+          object-fit: contain;
+      }
+
+      .img-caption {
+          font-size: var(--small-size);
+          color: var(--accent-neon);
+          margin-top: 0.5rem;
+          text-align: center;
+          font-family: var(--font-body);
+      }
+
+      .gif-gallery {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: var(--element-gap);
+          align-items: center;
+      }
+      
+      .reveal {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity var(--duration-normal) var(--ease-out-expo),
+                      transform var(--duration-normal) var(--ease-out-expo);
+      }
+      
+      .slide.visible .reveal {
+          opacity: 1;
+          transform: translateY(0);
+      }
+
+      .delay-1 { transition-delay: 0.1s; }
+      .delay-2 { transition-delay: 0.2s; }
+      .delay-3 { transition-delay: 0.3s; }
+      .delay-4 { transition-delay: 0.4s; }
+      
+      .nav-dots {
+          position: fixed;
+          right: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          z-index: 100;
+      }
+      
+      .nav-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.3);
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+      }
+      
+      .nav-dot.active {
+          background: var(--accent-neon);
+          transform: scale(1.5);
+      }
+      
+      .progress-bar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 4px;
+          background: var(--accent-neon);
+          width: 0%;
+          z-index: 101;
+          transition: width 0.3s ease;
+      }
+      
+      @media (max-width: 768px) {
+          .split-layout { flex-direction: column; }
+          .split-left { border-right: none; border-bottom: 2px solid var(--accent-neon); }
+          .split-left, .split-right { padding: 1.5rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Progress bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Navigation dots -->
+    <nav class="nav-dots"></nav>
+
+    <!-- Slide 1: Title -->
+    <section class="slide title-slide">
+      <div class="split-layout">
+          <div class="split-left">
+              <div class="badge reveal">PORTFOLIO '25</div>
+              <h1 class="reveal delay-1">Pratinav<br>Agrawal</h1>
+          </div>
+          <div class="split-right">
+              <div class="script reveal delay-2">Prototyping the future.</div>
+              <p class="reveal delay-3">Electrical Lead · FRC Team 2854<br>IEEE Macropad · UAVs at UCI<br>Automotive Engineering Enthusiast</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" class="reveal delay-4">
+                  <div class="tag">UC Irvine</div>
+                  <div class="tag">CSE</div>
+                  <div class="tag">Class of 2029</div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Intro/About -->
+    <section class="slide">
+      <div class="split-layout">
+          <div class="split-left" style="background: var(--bg-dark); border-right: none;">
+              <div class="script reveal">About</div>
+              <h2 class="reveal delay-1">Engineer & Creator</h2>
+              <p class="reveal delay-2">This portfolio presents selected hands-on engineering projects spanning electronics design, embedded systems, robotics, and automotive engineering — built through competition teams, university clubs, and independent personal projects.</p>
+          </div>
+          <div class="split-right" style="background: var(--bg-primary); border-left: 2px solid var(--accent-neon);">
+              <div class="badge reveal delay-1">AREAS OF FOCUS</div>
+              <ul class="bullet-list reveal delay-2">
+                  <li>Electronics & PCB Design</li>
+                  <li>Embedded Systems</li>
+                  <li>Automotive Engineering</li>
+                  <li>Robotics</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: Project 1 Intro -->
+    <section class="slide">
+      <div class="split-layout">
+          <div class="split-left">
+              <div class="badge reveal">PROJECT 01</div>
+              <h1 class="reveal delay-1">IEEE × Keebs<br>Macropad</h1>
+          </div>
+          <div class="split-right">
+              <div class="script reveal delay-2">Winter 2025–2026</div>
+              <p class="reveal delay-3">Participated in a collaborative multi-session workshop series organized by IEEE at UCI and the Keebs Club to design, assemble, and flash a fully functional 3×3 mechanical macropad from the ground up. The project spanned PCB design in KiCad, 3D-printed enclosure design, hand soldering, and QMK firmware flashing.</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" class="reveal delay-4">
+                  <span class="tag">KiCad PCB</span> <span class="tag">Soldering</span> <span class="tag">QMK Firmware</span>
+                  <span class="tag">Electronics</span> <span class="tag">Schematic Design</span>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: Project 1 - PCB Design -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 01 Details</div>
+          <h2 class="reveal delay-1">PCB Design — KiCad</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Designed a complete schematic in KiCad including a 3×3 key switch matrix with diode array to prevent ghosting, an Arduino Pro Micro microcontroller with proper VCC/GND power rails, an I²C OLED display connector, and a reset circuit.</li>
+                  <li>Learned key PCB design concepts: component footprint assignment, trace routing across copper layers (F.Cu and B.Cu), via placement to switch layers, and copper flood fills for a common ground plane.</li>
+                  <li>Performed footprint-to-schematic annotation and transferred the design to a PCB layout with precise component placement matching the physical 3D enclosure geometry (80×58mm board outline).</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: Project 1 - Soldering -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 01 Details</div>
+          <h2 class="reveal delay-1">Soldering & Assembly</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Soldered a through-hole diode array, resistor, Arduino Pro Micro pin headers, and Cherry MX key switches onto the bare PCB with proper technique — tinned tip, 325°C iron, flux management, and lead clipping.</li>
+                  <li>Assembled the complete macropad: inserted switches into the 3D-printed plate, oriented the plate with the PCB, attached keycaps, and reinforced the USB connector with hot glue to prevent mechanical stress failure.</li>
+                  <li>Flashed QMK open-source keyboard firmware to the Pro Micro to map key functions and enable custom layers.</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Project 1 - Key Skills -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 01 Takeaways</div>
+          <h2 class="reveal delay-1">Key Skills Demonstrated</h2>
+          <p class="reveal delay-2" style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; text-align: center;">End-to-end PCB development from schematic capture through physical assembly and firmware flashing. Hands-on proficiency with soldering tools and workflow, practical understanding of switch matrix logic, diode ghosting prevention, and microcontroller integration — skills directly applicable to any electronics design or hardware engineering role.</p>
+      </div>
+    </section>
+
+    <!-- Slide 7: Project 1 - Images (Design) -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal" style="text-align: center;">PCB Design</h2>
+          <div class="gallery reveal delay-1" style="grid-template-columns: 1fr 1fr;">
+              <div>
+                  <img src="IEEE Macropad Workshop/pcb schematic.png" alt="KiCad Schematic">
+                  <div class="img-caption">KiCad Schematic</div>
+              </div>
+              <div>
+                  <img src="IEEE Macropad Workshop/pcb design.png" alt="PCB Layout">
+                  <div class="img-caption">PCB Layout</div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 8: Project 1 - Images (Construction) -->
+    <section class="slide">
+      <div class="slide-content" style="align-items: center;">
+          <h2 class="reveal" style="text-align: center;">Completed Build</h2>
+          <div class="gallery reveal delay-1" style="grid-template-columns: 1fr; justify-items: center;">
+              <div>
+                  <img src="IEEE Macropad Workshop/macropad construction.png" alt="Completed Macropad" style="max-height: 55vh;">
+                  <div class="img-caption">Completed Macropad</div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 9: Project 2 Intro -->
+    <section class="slide">
+      <div class="split-layout">
+          <div class="split-left" style="background: var(--bg-dark); border-right: none;">
+              <div class="badge reveal">PROJECT 02</div>
+              <h1 class="reveal delay-1">Tinywhoop<br>Drone</h1>
+              <div class="script reveal delay-2">UAVs at UCI</div>
+          </div>
+          <div class="split-right" style="background: var(--bg-primary); border-left: 2px solid var(--accent-neon);">
+              <p class="reveal delay-3">As a member of the UAVs at UCI Tinywhoop team, built and configured a BETAFPV Air65 micro racing drone from components. The Air65 is a sub-65mm class FPV platform featuring a 5-in-1 flight controller, 0702SE II 27,000KV brushless motors, and a 160° FOV C03 FPV camera.</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" class="reveal delay-4">
+                  <span class="tag">Betaflight</span> <span class="tag">PID Tuning</span> <span class="tag">Soldering</span>
+                  <span class="tag">ESC/FC</span> <span class="tag">FPV Systems</span>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 10: Project 2 - Details -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 02 Details</div>
+          <h2 class="reveal delay-1">Assembly & Configuration</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Assembled the BETAFPV Air65 by integrating all electronic components into the micro frame: soldered motor leads to the 5-in-1 flight controller board, connected the FPV camera, and secured the canopy.</li>
+                  <li>Programmed and configured the flight controller using Betaflight software, adjusting PID (Proportional, Integral, Derivative) tuning parameters to optimize flight dynamics and motor response for racing.</li>
+                  <li>Developed practical understanding of the full UAV electronics stack: IMU (gyro/accelerometer), barometer, OSD overlay, power BEC regulation, and radio receiver protocols.</li>
+                  <li>Applied motor KV theory to understand the trade-off between speed and torque — 27,000KV motors selected for racing-optimized sharp, snappy response.</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 11: Project 2 - Key Skills -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 02 Takeaways</div>
+          <h2 class="reveal delay-1">Key Skills Demonstrated</h2>
+          <p class="reveal delay-2" style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; text-align: center;">Hands-on integration of a complete embedded electronics stack — soldering, firmware configuration, PID control theory, and power system understanding across motors, ESCs, and regulation circuits. Practical exposure to radio communication protocols and real-time control systems tuning in a high-iteration, build-test-tune engineering cycle.</p>
+      </div>
+    </section>
+
+    <!-- Slide 12: Project 2 - Images 1 -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal" style="text-align: center;">Assembly Process</h2>
+          <div class="gallery reveal delay-1" style="grid-template-columns: 1fr 1fr;">
+              <div>
+                  <img src="UAVs at UCI/board soldering.jpg" alt="Board Soldering">
+                  <div class="img-caption">Soldering Motor Leads</div>
+              </div>
+              <div>
+                  <img src="UAVs at UCI/motor assembly.jpeg" alt="Motor Assembly">
+                  <div class="img-caption">FC with Motors Mounted</div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 13: Project 2 - Images 2 -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal" style="text-align: center;">Final Build & Config</h2>
+          <div class="gallery reveal delay-1" style="grid-template-columns: 1fr 1fr;">
+              <div>
+                  <img src="UAVs at UCI/final drone.jpg" alt="Final Drone">
+                  <div class="img-caption">Completed Air65 Assembly</div>
+              </div>
+              <div>
+                  <img src="UAVs at UCI/betaflight software.jpeg" alt="Betaflight">
+                  <div class="img-caption">Betaflight PID Configuration</div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 14: Project 3 Intro -->
+    <section class="slide">
+      <div class="split-layout">
+          <div class="split-left">
+              <div class="badge reveal">PROJECT 03</div>
+              <h1 class="reveal delay-1">Honda<br>Automotive</h1>
+          </div>
+          <div class="split-right">
+              <div class="script reveal delay-2">Personal Projects</div>
+              <p class="reveal delay-3">Two ongoing personal automotive projects involving hands-on mechanical repair, aftermarket ECU installation, engine tuning, and a planned engine swap with custom fabricated components — driven entirely by self-directed curiosity and a desire to understand internal combustion powertrain systems at a deep, hands-on level.</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" class="reveal delay-4">
+                  <span class="tag">Hondata S300</span> <span class="tag">AFR / VTEC</span> <span class="tag">Hydraulics</span>
+                  <span class="tag">SOLIDWORKS</span> <span class="tag">AEM ECU</span>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 15: Project 3 - Prelude -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 03 Details</div>
+          <h2 class="reveal delay-1">1999 Honda Prelude (H22A4)</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Diagnosed and replaced a failed hydraulic clutch master cylinder and slave cylinder — restoring clutch hydraulic pressure and drivability.</li>
+                  <li>Installed a Hondata S300 engine management module on the H22A4 DOHC VTEC engine, enabling full ECU tunability on an otherwise locked stock Honda ECU.</li>
+                  <li>Adjusted air-fuel ratios (AFR) across the RPM range and optimized the VTEC cam-profile engagement point for maximum power output while maintaining drivability.</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 16: Project 3 - Accord -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 03 Details</div>
+          <h2 class="reveal delay-1">1997 Honda Accord (J35A4 Swap)</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Researched and planned a C27A4 V6-to-J35A4 engine swap, selecting a J35A4 block with J32A2 Type-S heads, cams, and intake manifold to create a high-compression, high-flow "Frankenstein" configuration.</li>
+                  <li>Currently modeling custom engine mount brackets in SOLIDWORKS to adapt J-series engine geometry to the Accord's C27-spec engine bay.</li>
+                  <li>Researching AEM V2 standalone ECU integration for full tunability with a forced induction setup, including volumetric efficiency table mapping for a custom tune.</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 17: Project 3 - Key Skills -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 03 Takeaways</div>
+          <h2 class="reveal delay-1">Key Skills Demonstrated</h2>
+          <p class="reveal delay-2" style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; text-align: center;">Real-world mechanical and powertrain engineering spanning hydraulic systems diagnosis, ECU installation and calibration, engine parameter mapping, and custom fabrication planning via SOLIDWORKS CAD. Demonstrates the ability to research complex engineering challenges independently and execute a multi-stage fabrication plan.</p>
+      </div>
+    </section>
+
+    <!-- Slide 18: Project 3 - Prelude Images -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal" style="text-align: center;">Prelude H22A4 Build</h2>
+          <div class="gallery reveal delay-1" style="grid-template-columns: 1fr 1fr 1fr;">
+              <div>
+                  <img src="Car Tuning/prelude.jpg" alt="Honda Prelude">
+                  <div class="img-caption">1999 Honda Prelude</div>
+              </div>
+              <div>
+                  <img src="Car Tuning/clutch master cylinder.jpeg" alt="Clutch Cylinder">
+                  <div class="img-caption">Clutch Master Cylinder</div>
+              </div>
+              <div>
+                  <img src="Car Tuning/hondata.jpg" alt="Hondata S300">
+                  <div class="img-caption">Hondata S300 Tuning</div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 19: Project 3 - Accord Images -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal" style="text-align: center;">Accord J35A4 Swap</h2>
+          <div class="gallery reveal delay-1" style="grid-template-columns: repeat(4, 1fr);">
+              <div>
+                  <img src="Car Tuning/accord.jpg" alt="Honda Accord">
+                  <div class="img-caption">1997 Honda Accord</div>
+              </div>
+              <div>
+                  <img src="Car Tuning/solidworks engine mount.png" alt="SOLIDWORKS Mount">
+                  <div class="img-caption">SOLIDWORKS Mount</div>
+              </div>
+              <div>
+                  <img src="Car Tuning/engine swap inspiration.jpg" alt="J35 Swap Ref">
+                  <div class="img-caption">J35 Reference 1</div>
+              </div>
+              <div>
+                  <img src="Car Tuning/engine mount inspiration.jpg" alt="J35 Mount Ref">
+                  <div class="img-caption">J35 Reference 2</div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 20: Project 4 Intro -->
+    <section class="slide">
+      <div class="split-layout">
+          <div class="split-left" style="background: var(--bg-dark); border-right: none;">
+              <div class="badge reveal">PROJECT 04</div>
+              <h1 class="reveal delay-1">FRC Robot<br>Atlas</h1>
+              <div class="script reveal delay-2">Team 2854</div>
+          </div>
+          <div class="split-right" style="background: var(--bg-primary); border-left: 2px solid var(--accent-neon);">
+              <p class="reveal delay-3">Served as Electrical Lead across four seasons, culminating in the 2024 Crescendo competition robot <em>Atlas</em> — a machine capable of collecting foam rings from the ground, shooting them into a raised Speaker using a pivoting shooter, and climbing chains. The team qualified for the FIRST Championship.</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" class="reveal delay-4">
+                  <span class="tag">Electrical Lead</span> <span class="tag">CAN Bus</span> <span class="tag">Computer Vision</span>
+                  <span class="tag">Autonomous</span> <span class="tag">Schematics</span>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 21: Project 4 - Electrical Systems -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 04 Details</div>
+          <h2 class="reveal delay-1">Electrical Systems Design</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Engineered the complete power distribution network and CAN/Ethernet communication bus for all onboard motors, sensors, and compute devices. Created detailed wiring schematics to streamline integration.</li>
+                  <li>Implemented a real-time computer vision system incorporating AprilTag-based field localization and neural network object detection to execute precise automated actions.</li>
+                  <li>Contributed over 40,000 lines of code across four award-winning competition robots, developing and testing complex autonomous routines using a simulated physics environment.</li>
+                  <li>Led hands-on workshops and delegated sub-team tasks, mentoring new members in precision wiring, crimping, and electromechanical design.</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 22: Project 4 - Key Skills -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Project 04 Takeaways</div>
+          <h2 class="reveal delay-1">Key Skills Demonstrated</h2>
+          <p class="reveal delay-2" style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; text-align: center;">Full ownership of an embedded electrical architecture under real competition constraints — including power distribution, CAN bus communication networks, sensor integration, wiring schematic documentation, and real-time autonomous systems. Four years of iteration across award-winning robots demonstrates sustained technical leadership and the ability to ship complex hardware on a deadline.</p>
+      </div>
+    </section>
+
+    <!-- Slide 23: Project 4 - Robot Images -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal" style="text-align: center;">Atlas Documentation</h2>
+          <div class="gallery reveal delay-1" style="grid-template-columns: 1fr 1fr;">
+              <div>
+                  <img src="FRC Competition/robot competition.jpg" alt="Atlas Robot Competition">
+                  <div class="img-caption">Atlas — Competition</div>
+              </div>
+              <div>
+                  <img src="FRC Competition/robot construction.jpg" alt="Robot Construction">
+                  <div class="img-caption">Atlas — Construction</div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 24: Project 4 - 2 Note Autos -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal">2 Note Autonomous</h2>
+          <p class="reveal delay-1">Our strategy shoots a preloaded note into the speaker, then backs up to collect more.</p>
+          <div class="gallery gif-gallery reveal delay-2">
+              <div><img src="FRC Competition/Autonomous Routines/2 Note Autos/2NoteBackUpLeft.gif" alt="2 Note Left"><div class="img-caption">Backup Left</div></div>
+              <div><img src="FRC Competition/Autonomous Routines/2 Note Autos/2NoteBackUpMiddle.gif" alt="2 Note Middle"><div class="img-caption">Backup Middle</div></div>
+              <div><img src="FRC Competition/Autonomous Routines/2 Note Autos/2NoteBackUpRight.gif" alt="2 Note Right"><div class="img-caption">Backup Right</div></div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 25: Project 4 - 3 Note Autos -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal">3 Note Autonomous</h2>
+          <div class="gallery gif-gallery reveal delay-1" style="grid-template-columns: repeat(4, 1fr);">
+              <div><img src="FRC Competition/Autonomous Routines/3 Note Autos/3NoteBackUpLeftCenterShoot.gif" alt="3 Note Left Center"><div class="img-caption">Left Center</div></div>
+              <div><img src="FRC Competition/Autonomous Routines/3 Note Autos/3NoteBackUpMiddleLeft.gif" alt="3 Note Middle Left"><div class="img-caption">Middle Left</div></div>
+              <div><img src="FRC Competition/Autonomous Routines/3 Note Autos/3NoteBackUpRightCenterShoot.gif" alt="3 Note Right Center"><div class="img-caption">Right Center</div></div>
+              <div><img src="FRC Competition/Autonomous Routines/3 Note Autos/3NoteCenterShoot.gif" alt="3 Note Center Shoot"><div class="img-caption">Center Shoot</div></div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 26: Project 4 - 4 & 5 Note Autos -->
+    <section class="slide">
+      <div class="slide-content">
+          <h2 class="reveal">4 & 5 Note Autonomous</h2>
+          <div class="gallery gif-gallery reveal delay-1" style="grid-template-columns: repeat(4, 1fr);">
+              <div><img src="FRC Competition/Autonomous Routines/4 Note Autos/4NoteBackUpLeft.gif" alt="4 Note Left"><div class="img-caption">4 Note Left</div></div>
+              <div><img src="FRC Competition/Autonomous Routines/4 Note Autos/4NoteBackUpRight.gif" alt="4 Note Right"><div class="img-caption">4 Note Right</div></div>
+              <div><img src="FRC Competition/Autonomous Routines/5 Note Autos/5NoteBackUpLeft.gif" alt="5 Note Left"><div class="img-caption">5 Note Left</div></div>
+              <div><img src="FRC Competition/Autonomous Routines/5 Note Autos/5noteBackUpRight.gif" alt="5 Note Right"><div class="img-caption">5 Note Right</div></div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 27: Technical Skills (Hardware) -->
+    <section class="slide">
+      <div class="split-layout">
+          <div class="split-left">
+              <div class="badge reveal">SKILLS</div>
+              <h1 class="reveal delay-1">Hardware<br>Toolkit</h1>
+          </div>
+          <div class="split-right">
+              <div class="grid reveal delay-2">
+                  <div>
+                      <div class="script">Electronics & PCB</div>
+                      <ul class="bullet-list">
+                          <li>KiCad — schematic & layout</li>
+                          <li>PCB trace routing & copper fill</li>
+                          <li>Through-hole soldering</li>
+                          <li>Power distribution design</li>
+                          <li>CAN bus / Ethernet networks</li>
+                          <li>Wiring schematics</li>
+                      </ul>
+                  </div>
+                  <div>
+                      <div class="script">Embedded & Control</div>
+                      <ul class="bullet-list">
+                          <li>Betaflight PID tuning</li>
+                          <li>QMK firmware flashing</li>
+                          <li>Arduino / Pro Micro</li>
+                          <li>Computer vision (real-time)</li>
+                          <li>Autonomous routines</li>
+                          <li>40,000+ lines code</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 28: Technical Skills (Auto & Soft) -->
+    <section class="slide">
+      <div class="split-layout">
+          <div class="split-left" style="background: var(--bg-dark); border-right: none;">
+              <div class="badge reveal">SKILLS</div>
+              <h1 class="reveal delay-1">Software &<br>Systems</h1>
+          </div>
+          <div class="split-right" style="background: var(--bg-primary); border-left: 2px solid var(--accent-neon);">
+              <div class="grid reveal delay-2">
+                  <div>
+                      <div class="script" style="color: var(--bg-dark);">Automotive</div>
+                      <ul class="bullet-list" style="color: var(--text-light);">
+                          <li>Hondata S300 ECU tuning</li>
+                          <li>AFR mapping & VTEC</li>
+                          <li>Hydraulic clutch repair</li>
+                          <li>Engine swap planning</li>
+                          <li>Forced induction</li>
+                          <li>Volumetric efficiency</li>
+                      </ul>
+                  </div>
+                  <div>
+                      <div class="script" style="color: var(--bg-dark);">CAD & Software</div>
+                      <ul class="bullet-list" style="color: var(--text-light);">
+                          <li>SOLIDWORKS</li>
+                          <li>Python · C++ · Java</li>
+                          <li>JavaScript / TypeScript</li>
+                          <li>Wireshark</li>
+                          <li>Verilog (digital design)</li>
+                          <li>SQL / HTML / CSS</li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 29: Competencies 1 -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Core Competency 01</div>
+          <h2 class="reveal delay-1">Electronics & Embedded Systems</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>PCB design in KiCad — schematic capture, footprint assignment, trace routing, and copper flood fills</li>
+                  <li>4 years designing and debugging CAN bus and Ethernet communication networks for competition robots</li>
+                  <li>Precision through-hole soldering — diode arrays, resistors, pin headers, key switches, and MCU integration</li>
+                  <li>ECU installation and parameter tuning (Hondata S300, Betaflight PID) across automotive and UAV platforms</li>
+                  <li>Sensor integration and real-time data acquisition — IMU, vision systems, barometers, and motor feedback</li>
+                  <li>Ability to read datasheets, pinout sheets, and wiring diagrams; build connectors; and troubleshoot faults</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 30: Competencies 2 -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Core Competency 02</div>
+          <h2 class="reveal delay-1">Mechanical & Powertrain Engineering</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Hands-on automotive work: hydraulic clutch repair, engine teardown, aftermarket ECU installation, and forced induction planning</li>
+                  <li>AFR mapping and VTEC engagement optimization on a Honda H22A4 using the Hondata S300 platform</li>
+                  <li>SOLIDWORKS CAD — custom engine mount design bridging C27 and J-series engine geometries</li>
+                  <li>Understanding of engine architecture trade-offs: compression ratio, head flow, cam profiles, and valve sizing</li>
+                  <li>Volumetric efficiency table research for standalone ECU (AEM V2) tuning with boost</li>
+                  <li>Self-directed learner: independently researched, planned, and is executing a complex J-series engine swap</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 31: Competencies 3 -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Core Competency 03</div>
+          <h2 class="reveal delay-1">Robotics & Autonomous Systems</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Contributed 40,000+ lines of code across four FRC competition robots, including autonomous routines and control algorithms</li>
+                  <li>Implemented real-time computer vision for field localization (AprilTag) and game piece detection on FRC Atlas</li>
+                  <li>Developed 2, 3, 4, and 5-note autonomous routines for FRC Crescendo — validated in simulation before competition</li>
+                  <li>Led sub-team task delegation and ran hands-on workshops in wiring, crimping, and electromechanical design</li>
+                  <li>Assembled and configured micro UAV (BETAFPV Air65) — motor soldering, flight controller setup, PID tuning</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 32: Competencies 4 -->
+    <section class="slide">
+      <div class="slide-content">
+          <div class="script reveal">Core Competency 04</div>
+          <h2 class="reveal delay-1">Software & Engineering Tools</h2>
+          <div class="reveal delay-2">
+              <ul class="bullet-list">
+                  <li>Programming: Python, C++, Java, JavaScript / TypeScript, Verilog, SQL, HTML/CSS</li>
+                  <li>KiCad (schematic + PCB layout), SOLIDWORKS (3D modeling), Betaflight, QMK firmware</li>
+                  <li>Wireshark and network security tooling — top 100 national competitor, US Cyber Challenge 2025</li>
+                  <li>Physics-based simulation environments for autonomous routine validation (FRC WPILib)</li>
+                  <li>Comfortable reading technical documentation, datasheets, and open-source codebases to self-learn new platforms</li>
+              </ul>
+          </div>
+      </div>
+    </section>
+
+    <!-- Slide 33: Contact -->
+    <section class="slide">
+      <div class="split-layout">
+          <div class="split-left" style="background: var(--bg-dark); border-right: none;">
+              <div class="script reveal">Ready to build</div>
+              <h1 class="reveal delay-1" style="color: var(--accent-neon); font-size: var(--h2-size);">Something real.</h1>
+              <p class="reveal delay-2">From a 3×3 PCB matrix to a turbocharged engine swap — the engineering mindset is the same: understand the system deeply, design it carefully, build it precisely, and keep iterating until it works.</p>
+          </div>
+          <div class="split-right" style="background: var(--bg-primary); border-left: 2px solid var(--accent-neon);">
+              <div class="reveal delay-3" style="font-family: var(--font-display); font-size: var(--h2-size); font-weight: 800; margin-bottom: 2rem;">agrawalptnv@gmail.com</div>
+              <div class="reveal delay-4">
+                  <div class="script">Phone</div>
+                  <p>408-706-0072</p>
+                  <div class="script" style="margin-top: 1rem;">University</div>
+                  <p>UC Irvine · CSE</p>
+                  <div class="script" style="margin-top: 1rem;">Honors</div>
+                  <p>Dean's Honors List · Valedictorian</p>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <script>
+      /* ===========================================
+         SLIDE PRESENTATION CONTROLLER
+         =========================================== */
+      class SlidePresentation {
+        constructor() {
+          this.slides = document.querySelectorAll(".slide");
+          this.currentSlide = 0;
+          this.navDotsContainer = document.querySelector(".nav-dots");
+          this.progressBar = document.querySelector(".progress-bar");
+
+          this.setupIntersectionObserver();
+          this.setupKeyboardNav();
+          this.setupTouchNav();
+          this.setupNavDots();
+          
+          window.addEventListener("scroll", () => this.setupProgressBar(), { passive: true });
+        }
+
+        setupIntersectionObserver() {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                const index = Array.from(this.slides).indexOf(entry.target);
+                this.currentSlide = index;
+                this.updateDots();
+              }
+            });
+          }, { threshold: 0.5 });
+          
+          this.slides.forEach(slide => observer.observe(slide));
+        }
+
+        setupKeyboardNav() {
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
+              e.preventDefault();
+              this.scrollToSlide(this.currentSlide + 1);
+            } else if (e.key === "ArrowUp" || e.key === "ArrowLeft" || e.key === "PageUp") {
+              e.preventDefault();
+              this.scrollToSlide(this.currentSlide - 1);
+            }
+          });
+        }
+
+        setupTouchNav() {
+          let touchStartY = 0;
+          let touchEndY = 0;
+          
+          document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+          }, { passive: true });
+          
+          document.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            this.handleSwipe(touchStartY, touchEndY);
+          }, { passive: true });
+        }
+
+        handleSwipe(startY, endY) {
+          const threshold = 50;
+          if (startY - endY > threshold) {
+            this.scrollToSlide(this.currentSlide + 1); // swipe up
+          } else if (endY - startY > threshold) {
+            this.scrollToSlide(this.currentSlide - 1); // swipe down
+          }
+        }
+
+        setupProgressBar() {
+          if (!this.progressBar) return;
+          const scrollPosition = window.scrollY;
+          const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = totalHeight > 0 ? (scrollPosition / totalHeight) * 100 : 0;
+          this.progressBar.style.width = progress + "%";
+        }
+
+        setupNavDots() {
+          if (!this.navDotsContainer) return;
+          this.navDotsContainer.innerHTML = "";
+          
+          this.slides.forEach((_, i) => {
+            const dot = document.createElement("button");
+            dot.className = "nav-dot";
+            dot.setAttribute("aria-label", "Go to slide " + (i + 1));
+            dot.addEventListener("click", () => this.scrollToSlide(i));
+            this.navDotsContainer.appendChild(dot);
+          });
+          this.updateDots();
+        }
+
+        updateDots() {
+          if (!this.navDotsContainer) return;
+          const dots = this.navDotsContainer.querySelectorAll(".nav-dot");
+          dots.forEach((dot, i) => {
+            if (i === this.currentSlide) dot.classList.add("active");
+            else dot.classList.remove("active");
+          });
+        }
+
+        scrollToSlide(index) {
+          if (index >= 0 && index < this.slides.length) {
+            this.slides[index].scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        new SlidePresentation();
+      });
+    </script>
+  </body>
+</html>

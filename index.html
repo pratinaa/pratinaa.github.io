@@ -766,7 +766,7 @@
     margin: 0 24px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     gap: 40px;
   }
 
@@ -778,7 +778,7 @@
     font-size: 56px;
     font-weight: 800;
     line-height: 1.1;
-    margin-bottom: 24px;
+    margin-bottom: 0;
     letter-spacing: -0.02em;
   }
 
@@ -795,9 +795,14 @@
 
   .contact-block {
     display: flex;
+    gap: 64px;
+    text-align: left;
+  }
+
+  .contact-col {
+    display: flex;
     flex-direction: column;
-    gap: 12px;
-    text-align: right;
+    gap: 16px;
   }
 
   .contact-item {
@@ -918,7 +923,7 @@
       <div class="reveal delay-2">
         <div class="contributions-label">Soldering &amp; Assembly</div>
         <ul class="contribution-list">
-          <li>Soldered a through-hole diode array, resistor, Arduino Pro Micro pin headers, and Cherry MX key switches
+          <li>Soldered a through-hole diode array, resistor, Arduino Pro Micro pin headers, and Gateron G Pro 3.0 Red Switches
               onto the bare PCB with proper technique — tinned tip, 325°C iron, flux management, and lead clipping.</li>
           <li>Assembled the complete macropad: inserted switches into the 3D-printed plate, oriented the plate with the
               PCB, attached keycaps, and reinforced the USB connector with hot glue to prevent mechanical stress failure.</li>
@@ -1414,19 +1419,17 @@
     <div class="back-cover-title">
       Ready to build<br><em>something real</em>.
     </div>
-    <div class="back-cover-desc">
-      From a 3×3 PCB matrix to a turbocharged engine swap — the engineering mindset is the same:
-      understand the system deeply, design it carefully, build it precisely, and keep iterating
-      until it works. I bring hands-on curiosity, a proven track record of learning fast, and the
-      drive to take projects from idea to physical reality.
-    </div>
   </div>
 
   <div class="contact-block reveal delay-2">
-    <div class="contact-item"><span>Email</span><br>agrawalptnv@gmail.com</div>
-    <div class="contact-item"><span>Phone</span><br>408-706-0072</div>
-    <div class="contact-item"><span>University</span><br>UC Irvine · CSE · Class of 2029</div>
-    <div class="contact-item"><span>Honors</span><br>Dean's Honors List · Valedictorian</div>
+    <div class="contact-col">
+      <div class="contact-item"><span>Email</span><br>agrawalptnv@gmail.com</div>
+      <div class="contact-item"><span>Phone</span><br>408-706-0072</div>
+    </div>
+    <div class="contact-col">
+      <div class="contact-item"><span>University</span><br>UC Irvine · CSE · Class of 2029</div>
+      <div class="contact-item"><span>Honors</span><br>Dean's Honors List · Valedictorian</div>
+    </div>
   </div>
 </div>
 

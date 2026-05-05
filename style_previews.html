@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Presets Previews</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;800&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Cormorant:ital,wght@0,400;0,600;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;1,300&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;800&family=Nunito:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Space+Grotesk:wght@400;500&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&family=Work+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Fontshare -->
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,700,500,600,300&f[]=satoshi@900,700,500,300,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           VIEWPORT FITTING: MANDATORY BASE STYLES
+           =========================================== */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+            padding: var(--slide-padding);
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        :root {
+            --title-size: clamp(1.5rem, 5vw, 4rem);
+            --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+            --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+            --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+            --small-size: clamp(0.65rem, 1vw, 0.875rem);
+            --slide-padding: clamp(1rem, 4vw, 4rem);
+            --content-gap: clamp(0.5rem, 2vw, 2rem);
+            --element-gap: clamp(0.25rem, 1vw, 1rem);
+        }
+
+        .card, .container, .content-box {
+            max-width: min(90vw, 1000px);
+            max-height: min(80vh, 700px);
+        }
+
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 2rem);
+                --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+                --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+                --h2-size: clamp(1rem, 3vw, 1.75rem);
+            }
+        }
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+                --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+                --title-size: clamp(1.1rem, 4vw, 2rem);
+                --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            }
+        }
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.4rem, 2vw, 1rem);
+                --title-size: clamp(1rem, 3.5vw, 1.5rem);
+                --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+                --body-size: clamp(0.65rem, 1vw, 0.85rem);
+            }
+        }
+        @media (max-width: 600px) {
+            :root {
+                --title-size: clamp(1.25rem, 7vw, 2.5rem);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        /* Common Slide Indicator */
+        .slide-indicator {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            z-index: 100;
+        }
+
+        /* ===========================================
+           1. BOLD SIGNAL
+           =========================================== */
+        #bold-signal {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        #bold-signal .content-box {
+            background: #FF5722;
+            color: #1a1a1a;
+            padding: clamp(2rem, 5vw, 4rem);
+            border-radius: 8px;
+            position: relative;
+            margin: auto;
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: var(--content-gap);
+        }
+        #bold-signal h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            margin: 0;
+            line-height: 1;
+        }
+        #bold-signal .number {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            opacity: 0.8;
+        }
+        #bold-signal .nav {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        #bold-signal .nav div {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            opacity: 0.3;
+        }
+        #bold-signal .nav div.active { opacity: 1; }
+
+        /* ===========================================
+           2. ELECTRIC STUDIO
+           =========================================== */
+        #electric-studio {
+            background: linear-gradient(to bottom, #ffffff 50%, #4361ee 50%);
+            font-family: 'Manrope', sans-serif;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+        }
+        #electric-studio .slide-content {
+            flex: none;
+            width: 80%;
+            max-width: 800px;
+            background: #0a0a0a;
+            color: #ffffff;
+            padding: clamp(2rem, 5vw, 4rem);
+            border-left: 8px solid #4361ee;
+            gap: var(--content-gap);
+        }
+        #electric-studio h1 {
+            font-weight: 800;
+            font-size: var(--title-size);
+            margin: 0;
+        }
+        #electric-studio p {
+            font-weight: 400;
+            font-size: var(--body-size);
+            opacity: 0.8;
+            margin: 0;
+        }
+        #electric-studio .brand {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: #0a0a0a;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        /* ===========================================
+           3. CREATIVE VOLTAGE
+           =========================================== */
+        #creative-voltage {
+            background: linear-gradient(to right, #0066ff 40%, #1a1a2e 40%);
+            color: #ffffff;
+            font-family: 'Space Mono', monospace;
+            position: relative;
+        }
+        #creative-voltage .slide-content {
+            flex-direction: row;
+            align-items: center;
+            gap: 5vw;
+        }
+        #creative-voltage .left, #creative-voltage .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--content-gap);
+        }
+        #creative-voltage h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: var(--title-size);
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 0;
+        }
+        #creative-voltage .badge {
+            background: #d4ff00;
+            color: #1a1a2e;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            font-weight: 700;
+            transform: rotate(-2deg);
+            width: fit-content;
+        }
+        #creative-voltage .script {
+            font-family: 'Syne', sans-serif;
+            font-style: italic;
+            font-weight: 700;
+            color: #d4ff00;
+            font-size: var(--h2-size);
+        }
+
+        /* ===========================================
+           4. DARK BOTANICAL
+           =========================================== */
+        #dark-botanical {
+            background: #0f0f0f;
+            color: #e8e4df;
+            font-family: 'IBM Plex Sans', sans-serif;
+            text-align: center;
+        }
+        #dark-botanical::before {
+            content: '';
+            position: absolute;
+            top: -10%; left: -10%;
+            width: 40vmax; height: 40vmax;
+            background: radial-gradient(circle, rgba(212,165,116,0.15) 0%, transparent 70%);
+            filter: blur(40px);
+        }
+        #dark-botanical::after {
+            content: '';
+            position: absolute;
+            bottom: -10%; right: -10%;
+            width: 30vmax; height: 30vmax;
+            background: radial-gradient(circle, rgba(232,180,184,0.15) 0%, transparent 70%);
+            filter: blur(40px);
+        }
+        #dark-botanical .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--content-gap);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        #dark-botanical .line {
+            width: 1px;
+            height: 10vh;
+            background: #c9b896;
+            margin: 0 auto;
+        }
+        #dark-botanical h1 {
+            font-family: 'Cormorant', serif;
+            font-weight: 400;
+            font-size: clamp(2rem, 6vw, 5rem);
+            margin: 0;
+            color: #d4a574;
+        }
+        #dark-botanical .signature {
+            font-family: 'Cormorant', serif;
+            font-style: italic;
+            font-size: var(--h3-size);
+            color: #e8b4b8;
+        }
+
+        /* ===========================================
+           5. NOTEBOOK TABS
+           =========================================== */
+        #notebook-tabs {
+            background: #2d2d2d;
+            font-family: 'DM Sans', sans-serif;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #notebook-tabs .paper {
+            background: #f8f6f1;
+            width: 80vw;
+            max-width: 900px;
+            height: 80vh;
+            position: relative;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(2rem, 6vw, 5rem);
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+        #notebook-tabs .holes {
+            position: absolute;
+            left: 20px;
+            top: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        #notebook-tabs .holes div {
+            width: 15px; height: 15px;
+            background: #2d2d2d;
+            border-radius: 50%;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        #notebook-tabs .tabs {
+            position: absolute;
+            right: calc(-1 * clamp(30px, 4vw, 40px));
+            top: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #notebook-tabs .tab {
+            width: clamp(30px, 4vw, 40px);
+            padding: 20px 0;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            text-align: center;
+            font-size: clamp(0.5rem, 1vh, 0.7rem);
+            font-weight: 500;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        #notebook-tabs h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 700;
+            font-size: var(--title-size);
+            margin: 0 0 var(--content-gap) 0;
+        }
+
+        /* ===========================================
+           6. PASTEL GEOMETRY
+           =========================================== */
+        #pastel-geometry {
+            background: #c8d9e6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #pastel-geometry .card {
+            background: #faf9f7;
+            width: 70vw;
+            max-width: 800px;
+            padding: clamp(2rem, 5vw, 4rem);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            color: #333;
+        }
+        #pastel-geometry .pills {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        #pastel-geometry .pill {
+            width: 12px;
+            border-radius: 6px;
+        }
+        #pastel-geometry h1 {
+            font-weight: 800;
+            font-size: var(--title-size);
+            margin: 0 0 var(--content-gap) 0;
+            color: #1a1a1a;
+        }
+        #pastel-geometry .icon-box {
+            width: 48px; height: 48px;
+            background: #f0b4d4;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        /* ===========================================
+           7. SPLIT PASTEL
+           =========================================== */
+        #split-pastel {
+            background: linear-gradient(to right, #f5e6dc 50%, #e4dff0 50%);
+            font-family: 'Outfit', sans-serif;
+            color: #1a1a1a;
+        }
+        #split-pastel .slide-content {
+            flex-direction: row;
+        }
+        #split-pastel .left, #split-pastel .right {
+            flex: 1;
+            padding: var(--slide-padding);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #split-pastel .right {
+            background-image: radial-gradient(#ccc 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+        }
+        #split-pastel h1 {
+            font-weight: 800;
+            font-size: var(--title-size);
+            line-height: 1.1;
+            margin: 0 0 var(--content-gap) 0;
+        }
+        #split-pastel .badge {
+            background: #c8f0d8;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: fit-content;
+            margin-bottom: 1rem;
+        }
+        #split-pastel .btn {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            width: fit-content;
+            margin-top: var(--content-gap);
+        }
+
+        /* ===========================================
+           8. VINTAGE EDITORIAL
+           =========================================== */
+        #vintage-editorial {
+            background: #f5f3ee;
+            color: #1a1a1a;
+            font-family: 'Work Sans', sans-serif;
+            text-align: center;
+        }
+        #vintage-editorial .content {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--content-gap);
+            position: relative;
+            z-index: 2;
+        }
+        #vintage-editorial h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 900;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            line-height: 1.1;
+            margin: 0;
+        }
+        #vintage-editorial .subtitle {
+            font-size: var(--h2-size);
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            color: #e8d4c0;
+        }
+        #vintage-editorial .cta-box {
+            border: 2px solid #1a1a1a;
+            padding: 1rem 2rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        #vintage-editorial .shape-circle {
+            position: absolute;
+            top: 20%; left: 15%;
+            width: 15vw; height: 15vw;
+            border: 1px solid #1a1a1a;
+            border-radius: 50%;
+            z-index: 1;
+            opacity: 0.2;
+        }
+        #vintage-editorial .shape-line {
+            position: absolute;
+            bottom: 30%; right: 20%;
+            width: 20vw; height: 1px;
+            background: #1a1a1a;
+            transform: rotate(-45deg);
+            z-index: 1;
+            opacity: 0.2;
+        }
+
+        /* ===========================================
+           9. NEON CYBER
+           =========================================== */
+        #neon-cyber {
+            background: #0a0f1c;
+            color: #fff;
+            font-family: 'Satoshi', sans-serif;
+            background-image: 
+                linear-gradient(rgba(0, 255, 204, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 204, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        #neon-cyber h1 {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 700;
+            font-size: var(--title-size);
+            color: #00ffcc;
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+            margin: 0 0 var(--content-gap) 0;
+            text-transform: uppercase;
+        }
+        #neon-cyber .glow-box {
+            border: 1px solid #ff00aa;
+            box-shadow: 0 0 15px rgba(255, 0, 170, 0.3), inset 0 0 15px rgba(255, 0, 170, 0.3);
+            padding: clamp(1.5rem, 4vw, 3rem);
+            background: rgba(10, 15, 28, 0.8);
+            backdrop-filter: blur(5px);
+            max-width: 600px;
+        }
+
+        /* ===========================================
+           10. TERMINAL GREEN
+           =========================================== */
+        #terminal-green {
+            background: #0d1117;
+            color: #39d353;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        #terminal-green .slide-content {
+            justify-content: flex-start;
+            padding-top: 10vh;
+        }
+        #terminal-green::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        #terminal-green h1 {
+            font-size: var(--h2-size);
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+        }
+        #terminal-green .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background: #39d353;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        #terminal-green p {
+            color: #8b949e;
+        }
+
+        /* ===========================================
+           11. SWISS MODERN
+           =========================================== */
+        #swiss-modern {
+            background: #ffffff;
+            color: #000000;
+            font-family: 'Nunito', sans-serif;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: 1fr 1fr;
+            padding: var(--slide-padding);
+        }
+        #swiss-modern .slide-content {
+            grid-column: 2;
+            grid-row: 1 / 3;
+            justify-content: center;
+            border-left: 2px solid #000;
+            padding-left: clamp(2rem, 5vw, 4rem);
+        }
+        #swiss-modern .accent-shape {
+            grid-column: 1;
+            grid-row: 1;
+            width: clamp(50px, 10vw, 150px);
+            height: clamp(50px, 10vw, 150px);
+            background: #ff3300;
+            border-radius: 50%;
+            align-self: center;
+            justify-self: center;
+        }
+        #swiss-modern h1 {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin: 0 0 var(--content-gap) 0;
+        }
+        #swiss-modern p {
+            font-size: var(--h3-size);
+            max-width: 500px;
+        }
+
+        /* ===========================================
+           12. PAPER & INK
+           =========================================== */
+        #paper-ink {
+            background: #faf9f7;
+            color: #1a1a1a;
+            font-family: 'Source Serif 4', serif;
+            text-align: center;
+        }
+        #paper-ink .slide-content {
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #paper-ink h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 600;
+            font-style: italic;
+            margin: 0;
+            color: #1a1a1a;
+        }
+        #paper-ink .rule {
+            width: 100px;
+            height: 2px;
+            background: #c41e3a;
+            margin: var(--content-gap) 0;
+        }
+        #paper-ink p {
+            font-size: var(--body-size);
+            line-height: 1.6;
+            color: #444;
+        }
+        #paper-ink .drop-cap {
+            float: left;
+            font-size: 4rem;
+            line-height: 0.8;
+            padding-right: 0.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            color: #c41e3a;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. BOLD SIGNAL -->
+    <div class="slide" id="bold-signal">
+        <div class="slide-indicator">1 / 12</div>
+        <div class="slide-content">
+            <div class="content-box">
+                <div class="number">01</div>
+                <div class="nav">
+                    <div class="active"></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <h1>BOLD<br>SIGNAL</h1>
+                <p>Confident, bold, modern, high-impact design for those who lead.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. ELECTRIC STUDIO -->
+    <div class="slide" id="electric-studio">
+        <div class="slide-indicator" style="color: #000;">2 / 12</div>
+        <div class="brand">STUDIO</div>
+        <div class="slide-content">
+            <h1>Electric Studio</h1>
+            <p>High contrast split panel design bringing out pure professionalism.</p>
+        </div>
+    </div>
+
+    <!-- 3. CREATIVE VOLTAGE -->
+    <div class="slide" id="creative-voltage">
+        <div class="slide-indicator">3 / 12</div>
+        <div class="slide-content">
+            <div class="left">
+                <div class="badge">NEW ENERGY</div>
+                <h1>Creative Voltage</h1>
+            </div>
+            <div class="right">
+                <div class="script">Unleash Ideas</div>
+                <p>Energetic, retro-modern vibe with script accents and striking colors.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. DARK BOTANICAL -->
+    <div class="slide" id="dark-botanical">
+        <div class="slide-indicator">4 / 12</div>
+        <div class="slide-content">
+            <div class="content">
+                <div class="line"></div>
+                <h1>Dark Botanical</h1>
+                <div class="signature">Elegance in shadows</div>
+                <p>Sophisticated, artistic, premium aesthetic with warm accent touches.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. NOTEBOOK TABS -->
+    <div class="slide" id="notebook-tabs">
+        <div class="slide-indicator" style="color: #fff;">5 / 12</div>
+        <div class="paper">
+            <div class="holes">
+                <div></div><div></div><div></div><div></div><div></div>
+            </div>
+            <div class="tabs">
+                <div class="tab" style="background: #98d4bb;">Intro</div>
+                <div class="tab" style="background: #c7b8ea;">Details</div>
+                <div class="tab" style="background: #f4b8c5;">Stats</div>
+            </div>
+            <h1>Notebook Tabs</h1>
+            <p>Editorial, organized, elegant, tactile paper aesthetic.</p>
+        </div>
+    </div>
+
+    <!-- 6. PASTEL GEOMETRY -->
+    <div class="slide" id="pastel-geometry">
+        <div class="slide-indicator" style="color: #000;">6 / 12</div>
+        <div class="card">
+            <div class="pills">
+                <div class="pill" style="height: 30px; background: #f0b4d4;"></div>
+                <div class="pill" style="height: 50px; background: #a8d4c4;"></div>
+                <div class="pill" style="height: 80px; background: #5a7c6a;"></div>
+                <div class="pill" style="height: 50px; background: #9b8dc4;"></div>
+                <div class="pill" style="height: 30px; background: #7c6aad;"></div>
+            </div>
+            <div class="icon-box">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </div>
+            <h1>Pastel Geometry</h1>
+            <p>Friendly, organized, and approachable modern layout.</p>
+        </div>
+    </div>
+
+    <!-- 7. SPLIT PASTEL -->
+    <div class="slide" id="split-pastel">
+        <div class="slide-indicator" style="color: #000;">7 / 12</div>
+        <div class="slide-content">
+            <div class="left">
+                <div class="badge">✨ Playful</div>
+                <h1>Split<br>Pastel</h1>
+            </div>
+            <div class="right">
+                <p>Modern, friendly, creative two-color split perfect for engaging stories.</p>
+                <div class="btn">Explore</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. VINTAGE EDITORIAL -->
+    <div class="slide" id="vintage-editorial">
+        <div class="slide-indicator" style="color: #000;">8 / 12</div>
+        <div class="shape-circle"></div>
+        <div class="shape-line"></div>
+        <div class="slide-content">
+            <div class="content">
+                <div class="subtitle">A timeless classic</div>
+                <h1>Vintage Editorial</h1>
+                <p>Witty, confident, personality-driven layout focusing purely on typography and shape.</p>
+                <div class="cta-box">Read More</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. NEON CYBER -->
+    <div class="slide" id="neon-cyber">
+        <div class="slide-indicator">9 / 12</div>
+        <div class="slide-content" style="align-items: center;">
+            <div class="glow-box">
+                <h1>Neon Cyber</h1>
+                <p>Futuristic, techy, confident style blending grid aesthetics with neon glow.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. TERMINAL GREEN -->
+    <div class="slide" id="terminal-green">
+        <div class="slide-indicator">10 / 12</div>
+        <div class="slide-content">
+            <h1>>_ Terminal Green<span class="cursor"></span></h1>
+            <p>user@host:~$ Developer-focused hacker aesthetic.</p>
+            <p>user@host:~$ Execution completed successfully.</p>
+        </div>
+    </div>
+
+    <!-- 11. SWISS MODERN -->
+    <div class="slide" id="swiss-modern">
+        <div class="slide-indicator" style="color: #000; bottom: 2rem; right: 2rem;">11 / 12</div>
+        <div class="accent-shape"></div>
+        <div class="slide-content">
+            <h1>Swiss<br>Modern</h1>
+            <p>Clean, precise, Bauhaus-inspired. Relying on strict grids, bold typography, and extreme contrast.</p>
+        </div>
+    </div>
+
+    <!-- 12. PAPER & INK -->
+    <div class="slide" id="paper-ink">
+        <div class="slide-indicator" style="color: #000;">12 / 12</div>
+        <div class="slide-content">
+            <h1>Paper & Ink</h1>
+            <div class="rule"></div>
+            <p><span class="drop-cap">E</span>ditorial, literary, thoughtful typography. Warm cream combined with charcoal and striking crimson accents provides a reading experience that mimics classic print.</p>
+        </div>
+    </div>
+
+</body>
+</html>
